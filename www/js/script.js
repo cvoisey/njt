@@ -7,7 +7,7 @@ angular.module('mainModule', ['ng.httpLoader'])
     // ...
    }
   ]);
-
+//TestComment
 angular.module("mainModule", ['ionic'])
     .directive('loading', function () {
         return {
