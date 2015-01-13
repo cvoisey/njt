@@ -1,29 +1,52 @@
 var URL = "http://clevertest.ealert.com/getbusinfo.asmx?op=GetScheduledData";
+"use strict";
 
 angular.module('mainModule', ['ng.httpLoader'])
-  .config(['httpMethodInterceptorProvider',
-    function (httpMethodInterceptorProvider) {
-    httpMethodInterceptorProvider.whitelistDomain('ealert.com');
-    // ...
-   }
-  ]);
+    .config(['httpMethodInterceptorProvider',
+        function (httpMethodInterceptorProvider) {
+            httpMethodInterceptorProvider.whitelistDomain('ealert.com');
+        }
+            ]);
 //TestComment
 angular.module("mainModule", ['ionic'])
+
+    .run(function($ionicPlatform) {
+      $ionicPlatform.ready(function() {
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        if (window.cordova && window.cordova.plugins.Keyboard) {
+          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        }
+        if (window.StatusBar) {
+          // org.apache.cordova.statusbar required
+          StatusBar.styleDefault();
+        }
+      });
+    })
+
     .directive('loading', function () {
         return {
             restrict: 'E',
             replace : true,
             template: '<div class="loading"><img src="./img/ajax-loader.gif" width="20" height="20" /></div>',
-        link: function (scope, element, attr) {
-              scope.$watch('loading', function (val) {
-                  if (val)
-                      $(element).show();
-                  else
-                      $(element).hide();
-              });
+            link: function (scope, element, attr) {
+                scope.$watch('loading', function (val) {
+                    if (val)
+                        $(element).show();
+                    else
+                        $(element).hide();
+                });
         }
       }
     })
+
+/*
+    .controller("ContentController", function ($scope, $ionicSideMenuDelegate) {
+        $scope.toggleRight = function() {
+            $ionicSideMenuDelegate.toggleRight();
+        }
+    });
+*/
 
   .controller("mainController", function ($scope, $http, jsonFilter)
   {
@@ -31,7 +54,7 @@ angular.module("mainModule", ['ionic'])
     {
       var x2js = new X2JS();
       var json = x2js.xml_str2json( data );
-      var result = x2js.xml_str2json(json.Envelope.Body.GetScheduledDataResponse.GetScheduledDataResult);      
+      var result = x2js.xml_str2json(json.Envelope.Body.GetScheduledDataResponse.GetScheduledDataResult);
       return result;
     };
 
@@ -40,26 +63,26 @@ angular.module("mainModule", ['ionic'])
     };
 
     $scope.doRefresh = function() {
-        $scope.postCall($scope.stopParam1);
-        $scope.$broadcast('scroll.refreshComplete');
-        $scope.$apply()
-    };
+            $scope.postCall($scope.stopParam1);
+            $scope.$broadcast('scroll.refreshComplete');
+            $scope.$apply()
+        };
 
-    $scope.postCall = function (stopParam1) {
-        $scope.loading = true;
-        $scope.stopParam1 = stopParam1;
-      
-        var ReqData = '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"><soap12:Body> <GetScheduledData xmlns="http://ealert.com/"><StopID>' + stopParam1 +'</StopID></GetScheduledData></soap12:Body></soap12:Envelope>';
-        $http({
-              url:  URL,
-              data: ReqData,
-              method:  "POST",
-              crossDomain: true,
-              headers:  {
-                  'Access-Control-Allow-Origin' : 'http://clevertest.ealert.com',
-                  'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
-                  'Content-Type': 'text/xml'
-              }
+        $scope.postCall = function (stopParam1) {
+            $scope.loading = true;
+            $scope.stopParam1 = stopParam1;
+
+            var ReqData = '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"><soap12:Body> <GetScheduledData xmlns="http://ealert.com/"><StopID>' + stopParam1 +'</StopID></GetScheduledData></soap12:Body></soap12:Envelope>';
+            $http({
+                  url:  URL,
+                  data: ReqData,
+                  method:  "POST",
+                  crossDomain: true,
+                  headers:  {
+                      'Access-Control-Allow-Origin' : 'http://clevertest.ealert.com',
+                      'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
+                      'Content-Type': 'text/xml'
+                  }
         })
         .success(function (data, status, headers, config)
         {
@@ -76,7 +99,7 @@ angular.module("mainModule", ['ionic'])
             log.console("Finished");
             $scope.loading = false;
         });
-        
+
     };
 
   })

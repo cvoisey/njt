@@ -7,6 +7,7 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -30,14 +31,23 @@
         <ion-header-bar>
             <ion-nav-bar>
                 <ion-nav-title>
-                    <img src="img/njTLogo.jpg"/>
+                    <ion-side-menus >
+                        <ion-side-menu side="left" width="myWidthValue+168">
+                            <img src="img/NJTransitLogo-2.jpg"/>
+                        </ion-side-menu>
+
+                        <ion-side-menu side="right" width="myWidthValue+30">
+                            <!-- <button class="button-clear button-icon icon-right ion-navicon" ng-click="doRefresh()"></button> -->
+                            <button class="button button-icon icon ion-android-more-vertical"></button>
+                        </ion-side-menu>
+                    </ion-side-menus>
                 </ion-nav-title>                 
             </ion-nav-bar>
         </ion-header-bar>
-        <ion-nav-view>  
+        <ion-nav-view>
             <ion-view>
-                <ion-content>
-                    <form ng-submit="postCall(stopParam1)">
+                <ion-content class="has-header">
+                    <form ng-submit='postCall(stopParam1)'>
                       <div class="list">
                         <label class="item item-input">
                           <input type="text" pattern="[0-9]*" placeholder="Stop Number" ng-model="stopParam1" ng-init="stopParam2 = '10095'">
@@ -45,12 +55,12 @@
                         </label>
                       </div>
                       <div class="padding">
-                        <button type="submit" class="button button-block button-positive">Get Update</button>
+                        <button type="submit" class="button button-block button">Get Update</button>
                       </div>
                     </form>
 
                     <div ng-if="postCallResult.BusStopInfo.StopSchedule.ArrivalTime != 'Clever Processing Error'">                        
-                        <ion-scroll style="height: 500px">
+                        <ion-scroll style="has-bouncing=false">
                         <ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()">
                             </ion-refresher>                    
                         <ion-list>
