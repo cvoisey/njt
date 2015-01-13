@@ -38,7 +38,9 @@
 
                         <ion-side-menu side="right" width="myWidthValue+30">
                             <!-- <button class="button-clear button-icon icon-right ion-navicon" ng-click="doRefresh()"></button> -->
-                            <button class="button button-icon icon ion-android-more-vertical"></button>
+                            <div class="buttons">
+                                <button class="button button-icon ion-android-more-vertical" ng-click="openPopover($event)"></button>
+                            </div>
                         </ion-side-menu>
                     </ion-side-menus>
                 </ion-nav-title>                 
@@ -84,3 +86,5 @@
     </ion-pane>
   </body>
 </html>
+
+
