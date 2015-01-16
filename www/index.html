@@ -1,90 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="mainModule">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>NJTransit</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+
     <link href="css/style.css" rel="stylesheet">
     <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="bower_components/x2js/xml2json.min.js"></script>
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic/js/ionic-angular.js"></script>
+    <script src="lib/angular-resource/angular-resource.js"></script>
+    <script src="lib/angular-http-loader/app/package/js/angular-http-loader.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="bower_components/x2js/xml2json.min.js"></script>
     <script src="js/script.js"></script>
-    <script src="lib/angular-http-loader/app/package/js/angular-http-loader.min.js"></script>
+
+
   </head>
+    <body ng-app="mainModule" ng-controller="mainController" angular.module('mainModule', ['ng.httpLoader'])>
+        <nav-bar animation="nav-title-slide-ios7"
+            type="bar-positive"
+            back-button-type="button-icon"
+            back-button-icon="ion-arrow-left-c">
+        </nav-bar>
 
-  <body ng-app="mainModule" ng-controller="mainController" angular.module('mainModule', ['ng.httpLoader'])>
-      <ion-pane>
-        <ion-header-bar>
-            <ion-nav-bar>
-                <ion-nav-title>
-                    <ion-side-menus >
-                        <ion-side-menu side="left" width="myWidthValue+168">
-                            <img src="img/NJTransitLogo-2.jpg"/>
-                        </ion-side-menu>
+<!--        <nav-view animation="slide-left-right"></nav-view> -->
+        <ion-pane>
+                <ion-header-bar>
+                    <ion-nav-bar>
+                        <ion-nav-title>
+                            <ion-side-menus >
+                                <ion-side-menu side="left" width="myWidthValue+168">
+                                    <img src="img/NJTransitLogo-2.jpg"/>
+                                </ion-side-menu>
 
-                        <ion-side-menu side="right" width="myWidthValue+30">
-                            <!-- <button class="button-clear button-icon icon-right ion-navicon" ng-click="doRefresh()"></button> -->
-                            <div class="buttons">
-                                <button class="button button-icon ion-android-more-vertical" ng-click="openPopover($event)"></button>
-                            </div>
-                        </ion-side-menu>
-                    </ion-side-menus>
-                </ion-nav-title>                 
-            </ion-nav-bar>
-        </ion-header-bar>
-        <ion-nav-view>
-            <ion-view>
-                <ion-content class="has-header">
-                    <form ng-submit='postCall(stopParam1)'>
-                      <div class="list">
-                        <label class="item item-input">
-                          <input type="text" pattern="[0-9]*" placeholder="Stop Number" ng-model="stopParam1" ng-init="stopParam2 = '10095'">
-                          <a class="clear" href="" data-ng-click="clearSearch()"><i class="icon ion-close-circled"></i></a>&nbsp;&nbsp
-                        </label>
-                      </div>
-                      <div class="padding">
-                        <button type="submit" class="button button-block button">Get Update</button>
-                      </div>
-                    </form>
-
-                    <div ng-if="postCallResult.BusStopInfo.StopSchedule.ArrivalTime != 'Clever Processing Error'">                        
-                        <ion-scroll style="has-bouncing=false">
-                        <ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()">
-                            </ion-refresher>                    
-                        <ion-list>
-                            <center><loading></loading></center>
-                            <div>
-                            <ion-item ng-repeat="ArrivalTimes in postCallResult.BusStopInfo.StopSchedule.ArrivalTime">
-                            {{postCallResult.BusStopInfo.StopSchedule.ArrivalTime[$index]}}
-                            </ion-item>
-                            </div>
-                        </ion-list>  
-                        </ion-scroll>
-                    </div>
-                    <div ng-if="postCallResult.BusStopInfo.StopSchedule.ArrivalTime == 'Clever Processing Error'">                        
-                      <ion-list>
-                        <ion-item>Invalid Stop</ion-item>
-                      </ion-list> 
-                    </div>
-                </ion-content> 
-            </ion-view>
-          </ion-nav-view>
-    </ion-pane>
-  </body>
+                                <ion-side-menu side="right" width="myWidthValue+30">
+                                    <!-- <button class="button-clear button-icon icon-right ion-navicon" ng-click="doRefresh()"></button> -->
+                                    <div class="buttons">
+                                        <button class="button button-icon ion-android-more-vertical" ng-click="openPopover($event)"></button>
+                                    </div>
+                                </ion-side-menu>
+                            </ion-side-menus>
+                        </ion-nav-title>
+                    </ion-nav-bar>
+                </ion-header-bar>
+                <ion-nav-view>
+                   <!-- Code will be inserted here from Template -->
+                </ion-nav-view>
+        </ion-pane>
+    </body>
 </html>
 
 

@@ -8,7 +8,29 @@ angular.module('mainModule', ['ng.httpLoader'])
         }
             ]);
 //TestComment
-angular.module("mainModule", ['ionic'])
+angular.module("mainModule", ['ionic','ui.router'])
+
+   .config(function ($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('about', {
+                url: "/about",
+                templateUrl: "about.html"
+            })
+        $stateProvider
+            .state('main', {
+                url: "/",
+                templateUrl: "main.html",
+            });
+
+        // if none of the above states are matched, use this as the fallback
+        $urlRouterProvider.otherwise('/');
+    })
+
+
+    .config(function ($compileProvider){
+      // Set the whitelist for certain URLs just to be safe
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+    })
 
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
@@ -98,7 +120,7 @@ angular.module("mainModule", ['ionic'])
         $scope.postCall = function (stopParam1) {
             $scope.loading = true;
             $scope.stopParam1 = stopParam1;
-
+            console.log(stopParam1);
             var ReqData = '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"><soap12:Body> <GetScheduledData xmlns="http://ealert.com/"><StopID>' + stopParam1 +'</StopID></GetScheduledData></soap12:Body></soap12:Envelope>';
             $http({
                   url:  URL,
@@ -113,17 +135,21 @@ angular.module("mainModule", ['ionic'])
         })
         .success(function (data, status, headers, config)
         {
-          $scope.postCallResult = logResult("POST SUCCESS", data, status, headers, config);
-          $scope.loading = false;
+            $scope.postCallResult = logResult("POST SUCCESS", data, status, headers, config);
+            console.log($scope.postCallResult);
+            console.log("Post Success");
+            $scope.loading = false;
         })
         .error(function (data, status, headers, config)
         {
-          $scope.postCallResult = logResult("POST ERROR", data, status, headers, config);
-          $scope.loading = false;
+            $scope.postCallResult = logResult("POST ERROR", data, status, headers, config);
+            console.log($scope.postCallResult);
+            console.log("Post Error");
+            $scope.loading = false;
         })
         .finally(function() {
             $scope.$broadcast('scroll.refreshComplete')
-            log.console("Finished");
+            console.log("finished");
             $scope.loading = false;
         });
 
