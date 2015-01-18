@@ -1,39 +1,52 @@
-                    <ion-view>
-                        <ion-content class="has-header" scroll="false">
-                            <form ng-submit='postCall(stopParam1)'>
-                              <div class="list">
-                                <label class="item item-input">
-                                  <input type="text" pattern="[0-9\s]*" placeholder="Stop Number" ng-model="stopParam1" ng-init="stopParam2 = '10070'">
-                                  <a class="clear" href="" data-ng-click="clearSearch()"><i class="icon ion-close-circled"></i></a>&nbsp;&nbsp
-                                </label>
-                              </div>
-                              <div class="padding">
-                                <button type="submit" class="button button-block button">Get Update</button>
-                              </div>
-                            </form>
-
-                            <div ng-if="(postCallResult.BusStopInfo.StopSchedule.ArrivalTime != 'Invalid Input')">
-                                <ion-scroll style="height: 500px">
-                                    <div style="height: 800px">
-                                    <ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()">
-                                    </ion-refresher>
-                                    <div ng-if="(postCallResult.BusStopInfo.TimeStamp != undefined)">
-                                    <a>Currently:  {{postCallResult.BusStopInfo.TimeStamp}}</a><br/>
-                                    <a>Selected Stop: <br/>  {{postCallResult.BusStopInfo.StopID}} - {{postCallResult.BusStopInfo.StopName}}</a><br/>
-                                    <ion-list>
-                                        <center><loading></loading></center>
-                                        <div>
-                                        <ion-item ng-repeat="ArrivalTimes in postCallResult.BusStopInfo.StopSchedule.ArrivalTime">
-                                        {{postCallResult.BusStopInfo.StopSchedule.ArrivalTime[$index]}}
-                                        </ion-item>
-                                        </div>
-                                    </ion-list>
+<ion-view title="<i class='icon ion-ios7-lightbulb-outline'></i> Home">
+    <ion-content class="has-header" scroll="false">
+        <form ng-submit='postCall(stopParam1)'>
+            <div class="list">
+                <label class="item item-input">
+                  <input type="text" pattern="[0-9\s]*" placeholder="Stop Number" ng-model="stopParam1" ng-init="stopParam2 = ''">
+                  <a class="clear" href="" data-ng-click="clearSearch()"><i class="icon ion-close-circled"></i></a>&nbsp;&nbsp
+                </label>
+                <div class="padding">
+                    <button type="submit" class="button button-block button">Get Update</button>
+                </div>
+            </div>
+        </form>
+                <div>
+                    <center>or select from last 5 stops:</center>
+                    <br/>
+                    <div ng-controller="mainController">
+                      <label class="item item-input item-select"><br/>
+                        <select ng-model="selectedStop" ng-options="stop as stop.name for stop in stops" ng-change='getPrevious()' ng-selected="">
+                        </select>
+                      </label>
+                        <br/>
+                        <div ng-if="(postCallResult.BusStopInfo.StopSchedule.ArrivalTime != 'Invalid Input')">
+                            <ion-scroll style="height: 500px">
+                                <div style="height: 800px">
+                                <ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()">
+                                </ion-refresher>
+                                <div ng-if="(postCallResult.BusStopInfo.TimeStamp != undefined)">
+                                <a>Currently:  {{postCallResult.BusStopInfo.TimeStamp}}</a><br/>
+                                <a>Selected Stop: <br/>  {{postCallResult.BusStopInfo.StopID}} - {{postCallResult.BusStopInfo.StopName}}</a><br/>
+                                <ion-list>
+                                    <center><loading></loading></center>
+                                    <div>
+                                    <ion-item ng-repeat="ArrivalTimes in postCallResult.BusStopInfo.StopSchedule.ArrivalTime">
+                                    {{postCallResult.BusStopInfo.StopSchedule.ArrivalTime[$index]}}
+                                    </ion-item>
                                     </div>
-                                </ion-scroll>
+                                </ion-list>
                                 </div>
+                            </ion-scroll>
                             </div>
-                            <div ng-if="postCallResult.BusStopInfo.StopSchedule.ArrivalTime == 'Invalid Input'">
-                                <a>{{postCallResult.BusStopInfo.StopSchedule.ArrivalTime}}</a>
-                            </div>
-                        </ion-content>
-                    </ion-view>
+                        </div>
+                        <div ng-if="postCallResult.BusStopInfo.StopSchedule.ArrivalTime == 'Invalid Input'">
+                            <a>{{postCallResult.BusStopInfo.StopSchedule.ArrivalTime}}</a>
+                        </div>
+
+                    </div><br/>
+                </div>
+
+
+    </ion-content>
+</ion-view>
